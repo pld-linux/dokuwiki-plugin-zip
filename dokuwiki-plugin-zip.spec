@@ -14,8 +14,9 @@ Requires:	php-pear-File_Archive
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_dokudir	/usr/share/dokuwiki
-%define		_plugindir	%{_dokudir}/lib/plugins/%{plugin}
+%define		dokuconf	/etc/webapps/dokuwiki
+%define		dokudir		/usr/share/dokuwiki
+%define		plugindir	%{dokudir}/lib/plugins/%{plugin}
 
 %description
 This plugin saves a doku wiki as a zip file that contains changes.log,
@@ -31,12 +32,18 @@ Wtyczka zip dla DokuWiki
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_plugindir}
-cp -a . $RPM_BUILD_ROOT%{_plugindir}
+install -d $RPM_BUILD_ROOT%{plugindir}
+cp -a . $RPM_BUILD_ROOT%{plugindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+# force css cache refresh
+if [ -f %{dokuconf}/local.php ]; then
+	touch %{dokuconf}/local.php
+fi
+
 %files
 %defattr(644,root,root,755)
-%{_plugindir}
+%{plugindir}
