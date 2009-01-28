@@ -8,6 +8,7 @@ License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://wiki.pilsch.com/doku-zip-%{version}.zip
 # Source0-md5:	7525314836db3ab7fd2f97d5a9e3bf89
+Source1:	dokuwiki-find-lang.sh
 URL:		http://wiki.pilsch.com/zip.html
 Requires:	dokuwiki >= 20061106
 Requires:	php-pear-File_Archive
@@ -35,6 +36,9 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{plugindir}
 cp -a . $RPM_BUILD_ROOT%{plugindir}
 
+# find locales
+sh %{SOURCE1} %{name}.lang
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -44,6 +48,8 @@ if [ -f %{dokuconf}/local.php ]; then
 	touch %{dokuconf}/local.php
 fi
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
-%{plugindir}
+%dir %{plugindir}
+%{plugindir}/*.php
+%{plugindir}/*.css
