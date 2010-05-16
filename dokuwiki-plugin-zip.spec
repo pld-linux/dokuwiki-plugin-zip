@@ -10,6 +10,7 @@ Source0:	http://wiki.pilsch.com/doku-zip-%{version}.zip
 # Source0-md5:	7525314836db3ab7fd2f97d5a9e3bf89
 Source1:	dokuwiki-find-lang.sh
 URL:		http://wiki.pilsch.com/zip.html
+BuildRequires:	unzip
 Requires:	dokuwiki >= 20061106
 Requires:	php-pear-File_Archive
 BuildArch:	noarch
